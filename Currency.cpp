@@ -22,12 +22,12 @@ Currency::~Currency()
    overloader operators + and -
    takes care of rolling over decimal values to the left
 */
-Currency &Currency::operator+(Currency* rh)
+Currency &Currency::operator+(Currency &rh)
 {
 	int rightWhole, rightFrac, leftWhole, leftFrac, newWhole, newFrac;
 
-	rightWhole = rh->getWholePart();
-	rightFrac = rh->getfractionalPart();
+	rightWhole = rh.getWholePart();
+	rightFrac = rh.getfractionalPart();
 
 	leftWhole = this->getWholePart();
 	leftFrac = this->getfractionalPart();
@@ -50,12 +50,12 @@ Currency &Currency::operator+(Currency* rh)
 	return *this;
 }
 
-Currency &Currency::operator-(Currency* rh)
+Currency &Currency::operator-(Currency &rh)
 {
 	int rightWhole, rightFrac, leftWhole, leftFrac, newWhole, newFrac;
 
-	rightWhole = rh->getWholePart();
-	rightFrac = rh->getfractionalPart();
+	rightWhole = rh.getWholePart();
+	rightFrac = rh.getfractionalPart();
 
 	leftWhole = this->getWholePart();
 	leftFrac = this->getfractionalPart();
