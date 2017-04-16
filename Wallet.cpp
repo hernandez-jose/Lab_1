@@ -105,7 +105,7 @@ bool Wallet::addMoney(string code, int whole, int fraction)
 	tempCurrency[index]->setFractionalPart(fraction);
 
 	// returns address; Currency type + Currency* type -- takes care of "rollover"
-	*amountInWallet[index] = *amountInWallet[index] + tempCurrency[index];
+	*amountInWallet[index] = *amountInWallet[index] + *tempCurrency[index];
 
 	return true;
 }
@@ -141,7 +141,7 @@ bool Wallet::subtractMoney(string code, int whole, int fraction)
 
 	
 	// returns address; Currency type - Currency* type -- takes care of "rollover"
-	*amountInWallet[index] = *amountInWallet[index] - tempCurrency[index];
+	*amountInWallet[index] = *amountInWallet[index] - *tempCurrency[index];
 
 	// delete currency from wallet when there is zero currency
 	checkCurrency(amountInWallet[index], index);
@@ -254,7 +254,7 @@ void Wallet::tester()
 
 
 /*
-  Checks if the wallet is empty by first checking for null pointers or amount is zero
+  Checks if the wallet is empty by first checking for null pointers
   returns true if empty
 */
 bool Wallet::checkIfEmpty()
@@ -269,15 +269,15 @@ bool Wallet::checkIfEmpty()
 }
 
 // friend overloaded operators
-istream &operator>>(istream &inputStream, Wallet *wallet)
+istream &operator>>(istream &inputStream, Wallet &wallet)
 {
 	int whole, fraction;
 	string code, wholeName, fracName, operation;
 
-	code = wallet->getWorkingCode();
-	wholeName = wallet->getWorkingWholeName();
-	fracName = wallet->getWorkingFractionName();
-	operation = wallet->getWorkingOperation();
+	code = wallet.getWorkingCode();
+	wholeName = wallet.getWorkingWholeName();
+	fracName = wallet.getWorkingFractionName();
+	operation = wallet.getWorkingOperation();
 
 	cout << wholeName << ": ";
 	inputStream >> whole;
@@ -288,42 +288,42 @@ istream &operator>>(istream &inputStream, Wallet *wallet)
 	// add/subtract money
 	if (operation == "addition")
 	{
-		if (wallet->addMoney(code, whole, fraction))
+		if (wallet.addMoney(code, whole, fraction))
 			cout << "Money was deposited into the wallet." << endl;
 		else
 			cout << "Could not deposit money into the wallet. Please do not enter inappropriate values" << endl;
 	}
 	if (operation == "subtraction")
 	{
-		if (wallet->subtractMoney(code, whole, fraction))
+		if (wallet.subtractMoney(code, whole, fraction))
 			cout << "Money was withdrawn from the wallet." << endl;
 		else
 			cout << "Could not withdraw money from the wallet. Please do not enter inappropriate values." << endl;
 	}
 
 	// reset
-	wallet->setWorkingCode("");
-	wallet->setWorkingWholeName("");
-	wallet->setWorkingFractionName("");
-	wallet->setWorkingOperation("");
+	wallet.setWorkingCode("");
+	wallet.setWorkingWholeName("");
+	wallet.setWorkingFractionName("");
+	wallet.setWorkingOperation("");
 
 	return inputStream;
 }
 
-ostream &operator<<(ostream &outStream, Wallet* wallet)
+ostream &operator<<(ostream &outStream, Wallet &wallet)
 {
-	if (!wallet->checkIfEmpty())
+	if (!wallet.checkIfEmpty())
 		outStream << "You have the following amount:" << endl;
-	for (int i = 0; i < wallet->numberOfCurrenciesInWallet; i++)
+	for (int i = 0; i < wallet.numberOfCurrenciesInWallet; i++)
 	{
-		if (wallet->amountInWallet[i] != nullptr)
+		if (wallet.amountInWallet[i] != nullptr)
 		{
-			outStream << wallet->amountInWallet[i]->getWholePart() << " " << wallet->amountInWallet[i]->getName()
-				<< " and " << wallet->amountInWallet[i]->getfractionalPart() << " "
-				<< wallet->amountInWallet[i]->getFracName() << endl;
+			outStream << wallet.amountInWallet[i]->getWholePart() << " " << wallet.amountInWallet[i]->getName()
+				<< " and " << wallet.amountInWallet[i]->getfractionalPart() << " "
+				<< wallet.amountInWallet[i]->getFracName() << endl;
 		}
 	}
-	if (wallet->checkIfEmpty())
+	if (wallet.checkIfEmpty())
 		outStream << "There is no money in the wallet." << endl;
 	return outStream;
 }
@@ -340,5 +340,5 @@ Wallet::~Wallet()
 			delete tempCurrency[i];
 		}
 	}
-	cout << "destructor: Wallet" << endl;
+	//cout << "destructor: Wallet" << endl;
 }
