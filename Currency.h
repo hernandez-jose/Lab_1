@@ -24,8 +24,8 @@ public:
 	void					setWholePart(int num) { wholePart = num; }
 	void					setFractionalPart(int num) { fractionalPart = num; }
 
-	Currency 				&operator+(Currency *);
-	Currency 				&operator-(Currency *);
+	Currency 				&operator+(Currency &);
+	Currency 				&operator-(Currency &);
 
 							Currency() : currencyCode("NONE"), name("NO NAME"), wholePart(0), fractionalPart(0) {};
 	virtual					~Currency();
