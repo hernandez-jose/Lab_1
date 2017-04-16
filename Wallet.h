@@ -28,8 +28,8 @@ public:
 	bool	checkIfEmpty();
 	void	checkCurrency(Currency*, int);
 	
-	friend std::ostream &operator<<(std::ostream &, Wallet*);
-	friend std::istream &operator>>(std::istream &, Wallet *);
+	friend std::ostream &operator<<(std::ostream &, Wallet &);
+	friend std::istream &operator>>(std::istream &, Wallet &);
 	
 	void tester();
 	
