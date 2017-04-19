@@ -4,8 +4,6 @@
 	from adding each other. Base classes have no currency code.
 */
 
-
-#include "stdafx.h"
 #include "Currency.h"
 #include<iostream>
 
