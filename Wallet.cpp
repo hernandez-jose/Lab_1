@@ -54,8 +54,8 @@ bool Wallet::addMoney(string code, int whole, int fraction)
 	int index;
 
 	// fractions larger than 100 and are negative do not add
-	// 0 <= x < 100
-	if ( !( 0 <= fraction && fraction < 100 ) )
+	// 0 <= x < 100 and y > 0
+	if ( !((0 <= fraction) && (fraction < 100) && (whole >= 0)) )
 		return false;
 
 	// O(n^2)
@@ -120,7 +120,7 @@ bool Wallet::subtractMoney(string code, int whole, int fraction)
 	// fractions larger than 100 and are negative do not add
 	// also check negative values for whole amount
 	// 0 <= x < 100
-	if (!(0 <= fraction && fraction < 100) && whole >= 0)
+	if (! ((0 <= fraction) && (fraction < 100) && (whole >= 0)) )
 		return false;
 
 	// end conditions
@@ -151,13 +151,13 @@ bool Wallet::subtractMoney(string code, int whole, int fraction)
 
 /*
   checks if currency value is zero than it deletes the memory allocated for it
-  then it shifts over the arrays address, so as to not leave a "gap" in between
+  then it shifts over the arrays addresses, so as to not leave a "gap" in between
   the arrays
 */
 void Wallet::checkCurrency(Currency* wallet, int index)
 {
 	// if no money in currency
-	if (wallet->getWholePart() == 0 && wallet->getfractionalPart() == 0)
+	if ( (wallet->getWholePart() == 0) && (wallet->getfractionalPart() == 0))
 	{
 		// delete currency
 		delete amountInWallet[index];
@@ -285,6 +285,9 @@ istream &operator>>(istream &inputStream, Wallet &wallet)
 	cout << fracName << ": ";
 	inputStream >> fraction;
 
+	inputStream.ignore();
+
+
 	// add/subtract money
 	if (operation == "addition")
 	{
@@ -313,18 +316,25 @@ istream &operator>>(istream &inputStream, Wallet &wallet)
 ostream &operator<<(ostream &outStream, Wallet &wallet)
 {
 	if (!wallet.checkIfEmpty())
-		outStream << "You have the following amount:" << endl;
+	{
+		outStream << "*********************************************************\n" <<
+					 " You have the following amount:" << endl;
+	}
 	for (int i = 0; i < wallet.numberOfCurrenciesInWallet; i++)
 	{
 		if (wallet.amountInWallet[i] != nullptr)
 		{
-			outStream << wallet.amountInWallet[i]->getWholePart() << " " << wallet.amountInWallet[i]->getName()
+			outStream << "*********************************************************\n\t"
+				<< wallet.amountInWallet[i]->getWholePart() << " " << wallet.amountInWallet[i]->getName()
 				<< " and " << wallet.amountInWallet[i]->getfractionalPart() << " "
-				<< wallet.amountInWallet[i]->getFracName() << endl;
+				<< wallet.amountInWallet[i]->getFracName() << 
+				"\n*********************************************************" << endl;
 		}
 	}
 	if (wallet.checkIfEmpty())
-		outStream << "There is no money in the wallet." << endl;
+		outStream << "*********************************************************\n"
+				  << " There is no money in the wallet.\n"
+				  << "*********************************************************" << endl;
 	return outStream;
 }
 
@@ -338,6 +348,8 @@ Wallet::~Wallet()
 		{
 			delete amountInWallet[i];
 			delete tempCurrency[i];
+			amountInWallet[i] = nullptr;
+			tempCurrency[i] = nullptr;
 		}
 	}
 	//cout << "destructor: Wallet" << endl;

@@ -32,8 +32,8 @@ int _tmain(int argc, _TCHAR* argv[])
 			error = false;
 		}
 		cout << bag;
-		
-		cout << " This program allows you to Deposit or Withdraw from your Wallet." << endl;
+
+		cout         << "\n * Select an option to add money in wallet." << endl;
 		cout << endl << "**************** Main Menu ******************************" << endl;
 		cout << "Please select from the following" << endl;
 		cout << " 1) Add Currency" << endl;
@@ -42,7 +42,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		cout << " 4) Exit Program" << endl;
 		cout << " Please input the letter and press enter" << endl << endl;
 		cout << "*********************************************************" << endl;
-		
+
 		getline(cin, choice);
 
 		if (choice == "1")
@@ -57,7 +57,9 @@ int _tmain(int argc, _TCHAR* argv[])
 			bag.removeAllCurrency();
 		else if (choice == "4")
 			menu = true;
-		
+		else
+			error = true;
+
 	} while (menu == false);
 
 	system("pause");
@@ -76,18 +78,19 @@ void addPage(Wallet &bag){
 		system("cls");
 		if (error == true) // output errors
 		{
-			cout << "\t* Invalid selection choose again." << endl << endl;
+			cout << "\t* Invalid selection choose again." << endl;
 			error = false;
 		}
 		cout << bag;
 
-		cout << "Please select which form of currency from the following" << endl;
+		cout << "\nPlease select which form of currency from the following" << endl;
 		cout << " 1) US Dollars\n";
 		cout << " 2) Peso\n";
 		cout << " 3) Rupee\n";
 		cout << " 4) Yen\n";
 		cout << " 5) Euro\n";
 		cout << " 6) Return to Main Menu\n";
+
 		
 		getline(cin, choice);
 
@@ -138,19 +141,20 @@ void subtractPage(Wallet &bag){
 
 		if (error == true) // output errors
 		{
-			cout << "\t* Invalid selection choose again." << endl << endl;
+			cout << "\t* Invalid selection choose again." << endl;
 			error = false;
 		}
 		cout << bag;
-		
-		cout << "Please select which form of currency from the following" << endl;
+
+		cout << "\nPlease select which form of currency from the following" << endl;
 		cout << " 1) US Dollars\n";
 		cout << " 2) Peso\n";
 		cout << " 3) Rupee\n";
 		cout << " 4) Yen\n";
 		cout << " 5) Euro\n";
 		cout << " 6) Return to Main Menu\n";
-		
+
+
 		getline(cin, choice);
 
 		if (choice == "1")
@@ -180,7 +184,7 @@ void subtractPage(Wallet &bag){
 		}
 		else
 			error = true;
-		
+
 
 	} while (menu == false);
 }
@@ -188,10 +192,10 @@ void subtractPage(Wallet &bag){
 void subtractByCurrency(string code, string name, string frac, Wallet &bag)
 {
 	system("cls");
-	
+
 	cout << bag;
 
-	cout << "This program will ask for the " << name << " value and " << frac << " value separately." << endl;
+	cout << "\nThis program will ask for the " << name << " value and \n" << frac << " value separately." << endl;
 	// cin>> currency.fractionpart;
 
 	bag.setWorkingCode(code);
@@ -199,7 +203,7 @@ void subtractByCurrency(string code, string name, string frac, Wallet &bag)
 	bag.setWorkingFractionName(frac);
 	bag.setWorkingOperation("subtraction");
 
-	cout << "Enter Amount" << endl;
+	cout << "\nEnter Amount" << endl;
 
 	cin >> bag;
 
@@ -211,14 +215,14 @@ void addByCurrency(string code, string name, string frac, Wallet &bag)
 
 	cout << bag;
 
-	cout << "This program will ask for the " << name << " value and " << frac << " value separately." << endl;
+	cout << "\nThis program will ask for the " << name << " value and \n" << frac << " value separately." << endl;
 
 	bag.setWorkingCode(code);
 	bag.setWorkingWholeName(name);
 	bag.setWorkingFractionName(frac);
 	bag.setWorkingOperation("addition");
 
-	cout << "Enter Amount" << endl;
+	cout << "\nEnter Amount" << endl;
 
 	cin >> bag;
 
